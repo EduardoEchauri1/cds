@@ -1,0 +1,48 @@
+name: Despliegue de SAP CAP a Azure App Service (ztproducts)
+
+on:
+  push:
+    branches:
+      - master # Usamos 'master' basado en tu último push
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: ztproducts   # Tu App Service
+  NODE_VERSION: '20.x'           # Versión recomendada de Node.js
+  
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      name: 1. Descargar código
+
+    - name: 2. Configurar Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    # Paso CRUCIAL: Solo instalamos las dependencias
+    # No ejecutamos 'npm run build' porque no es necesario.
+    - name: 3. Instalación de dependencias (npm install)
+      run: npm install
+      
+    # Empaquetamos todo el código y node_modules
+    - name: 4. Subir artifact para el despliegue
+      uses: actions/upload-artifact@v4
+      with:
+        name: node-app
+        path: . 
+
+    - name: '5. Desplegar a Azure Web App'
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v3 
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }} 
+        package: . # Despliega todo el contenido empaquetado
+
+    - name: 6. Verificación
+      run: echo "Despliegue completado. Azure ejecutará 'npm start'."
