@@ -1,4 +1,7 @@
-name: Deploy SAP CAP Node.js App to Azure Web App - ztproducts
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js app to Azure Web App - ztproducts
 
 on:
   push:
@@ -7,40 +10,50 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy: # Simplificamos a un solo job para reducir la complejidad
+  build:
     runs-on: ubuntu-latest
-    
-    # PERMISOS: Necesarios para el OIDC Azure Login
     permissions:
-      id-token: write 
-      contents: read 
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
-        name: 1. Descargar código
 
-      - name: 2. Set up Node.js version 20
+      - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x' # Usamos 20.x para mayor compatibilidad con CAP
+          node-version: '22.x'
 
-      # 3. INSTALACIÓN DE DEPENDENCIAS (Solo npm install)
-      - name: 3. Install dependencies
-        run: npm install
-        # CRUCIAL: Eliminamos 'npm run build' y 'npm run test'. 
-        # Azure ejecutará 'npm start' (cds run) al inicio.
+      - name: npm install, build, and test
+        run: |
+          npm install
+        
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: .
 
-      # 4. INICIO DE SESIÓN EN AZURE (usando el Service Principal)
-      # Nota: Debes reemplazar los nombres secretos con los que creaste.
-      - name: 4. Login to Azure
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+      
+      - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }} # Reemplaza por tu nombre de secreto
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }} # Reemplaza por tu nombre de secreto
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} # Reemplaza por tu nombre de secreto
-          
-      # 5. DESPLIEGUE A AZURE WEB APP
-      - name: '5. Deploy to Azure Web App'
+          client-id: ${{ secrets.__clientidsecretname__ }}
+          tenant-id: ${{ secrets.__tenantidsecretname__ }}
+          subscription-id: ${{ secrets.__subscriptionidsecretname__ }}
+
+      - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
@@ -48,6 +61,3 @@ jobs:
           slot-name: 'Production'
           package: .
           
-      - name: 6. Logout from Azure
-        run: |
-          az logout
