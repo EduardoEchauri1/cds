@@ -1,0 +1,7 @@
+COMPANYID,CEDIID,LABELID,VALUEPAID,VALUEID,VALUE,ALIAS,SEQUENCE,IMAGE,DESCRIPTION
+0,0,IdApplications,,IdSecurity,Seguridad,SEG,10,https://seguridad.png,"Módulo de Seguridad, para la gestión de usuarios, roles, privilegios y procesos por aplicación"
+0,0,IdApplications,,IdFinance,Finanzas,FIN,20,https://finanzas.png,"Módulo de Finanzas para control presupuestario, ingresos y egresos"
+0,0,IdApplications,,IdSales,Ventas,VEN,30,https://ventas.png,"Módulo para gestión comercial y seguimiento de clientes"
+0,0,IdSecurity,IdSecurity,IdUsers,Usuarios,USR,1,https://usuarios.png,"Submódulo de gestión de usuarios"
+0,0,IdSecurity,IdSecurity,IdRoles,Roles,ROL,2,https://roles.png,"Submódulo de roles y permisos"
+0,0,IdSales,IdSales,IdLeads,Prospectos,PRS,1,https://prospectos.png,"Submódulo para gestión de prospectos"

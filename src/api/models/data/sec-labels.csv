@@ -1,0 +1,5 @@
+LABELID,COMPANYID,CEDIID,LABEL,INDEX,COLLECTION,SECTION,SEQUENCE,IMAGE,DESCRIPTION
+IdApplications,0,0,Aplicaciones,aplicacion-seguridad-roles-privilegios,usuarios-roles-privilegios,seguridad,10,https://application.png,Catalogo de Aplicaciones
+IdPrivileges,0,0,Privilegios,aplicacion-seguridad-roles-privilegios-usuarios,usuarios-roles-privilegios,seguridad,20,https://privileges.png,Catalogo de Privilegios
+IdProcesses,0,0,Procesos,aplicacion-seguridad-roles-privilegios-procesos-usuarios,usuarios-roles-privilegios,seguridad,30,https://process.png,Catalogo de Procesos
+IdViews,0,0,Catalogo de Vistas (paginas),aplicacion-seguridad-roles-privilegios,usuarios-roles-privilegios,seguridad,15,https://paginas.png,Catalogo de Paginas

@@ -1,0 +1,48 @@
+{
+  "name": "SAP_CDS_JS_API_REST",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@azure/cosmos": "^4.8.0",
+    "@azure/storage-blob": "^12.29.1",
+    "@dotenvx/dotenvx": "1.39.0",
+    "@sap/cds": "^8.9.6",
+    "axios": "^1.9.0",
+    "cors": "2.8.5",
+    "express": "^4.21.2",
+    "mongoose": "^8.13.0",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "@cap-js/cds-types": "0.9.0",
+    "@cap-js/sqlite": "1"
+  },
+  "scripts": {
+    "start": "cds run",
+    "dev": "cds watch --port 3033",
+    "bat": "my-script.bat",
+    "build": "cds build --clean && npm run bat",
+    "build-docker": "cds build --clean"
+  },
+  "cds": {
+    "folders": {
+      "db": "src/api/models",
+      "srv": "src/api/routes"
+    },
+    "server": {
+      "body_parser_limit": "50mb"
+    }
+  },
+  "requires": {
+    "impl": "src/api/controllers/sec-labels-controller.js"
+  },
+  "engines": {
+    "node": "^18 || ^20"
+  }
+}
